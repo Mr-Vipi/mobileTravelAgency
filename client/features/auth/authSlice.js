@@ -1,25 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "../../services/authService";
 
-// Get agent from AsyncStorage maybe thunk?????
-const agent = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem("agent");
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
-  }
-};
+// Get agent from AsyncStorage
+// const getData = async () => {
+//   try {
+//     const jsonValue = await AsyncStorage.getItem("agent");
+//     return jsonValue !== null ? jsonValue : null;
+//   } catch (e) {
+//     console.log("e", e);
+//     // error reading value
+//   }
+// };
+
+// console.log("getData", getData());
 
 const initialState = {
-  agent: agent ? agent : null,
+  agent: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
 };
 
-// Register agent
+// Register user
 export const register = createAsyncThunk(
   "auth/register",
   async (agent, thunkAPI) => {
@@ -53,12 +56,12 @@ export const authSlice = createSlice({
       .addCase(register.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(register.fulfilled, (state) => {
+      .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.agent = action.payload;
       })
-      .addCase(register.rejected, (state) => {
+      .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

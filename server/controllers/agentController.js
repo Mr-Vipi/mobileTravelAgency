@@ -8,9 +8,9 @@ const Agent = require("../models/agentModel");
 // @route   POST /api/agents
 // @access  Public
 const registerAgent = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { /* name, */ email, password } = req.body;
 
-  if (!name || !email || !password) {
+  if (/* !name || */ !email || !password) {
     res.status(400);
     throw new Error("Please add all fields");
   }
@@ -29,7 +29,7 @@ const registerAgent = asyncHandler(async (req, res) => {
 
   // Create agent
   const agent = await Agent.create({
-    name,
+    // name,
     email,
     password: hashedPassword,
   });
@@ -37,7 +37,7 @@ const registerAgent = asyncHandler(async (req, res) => {
   if (agent) {
     res.status(201).json({
       _id: agent.id,
-      name: agent.name,
+      // name: agent.name,
       email: agent.email,
       token: generateToken(agent._id),
     });
@@ -65,7 +65,7 @@ const loginAgent = asyncHandler(async (req, res) => {
   if (agent && comparePassword) {
     res.json({
       _id: agent.id,
-      name: agent.name,
+      // name: agent.name,
       email: agent.email,
       token: generateToken(agent._id),
     });
@@ -79,11 +79,11 @@ const loginAgent = asyncHandler(async (req, res) => {
 // @route   GET /api/agents/me
 // @access  Private
 const getAgent = asyncHandler(async (req, res) => {
-  const { _id, name, email } = req.agent;
+  const { _id, /* name, */ email } = req.agent;
 
   res.status(200).json({
     id: _id,
-    name,
+    // name,
     email,
   });
 });

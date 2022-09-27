@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../features/auth/authSlice";
+import { register, reset } from "../features/auth/authSlice";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -23,25 +23,24 @@ const LoginScreen = () => {
   );
 
   useEffect(() => {
-    console.log(isError);
-    console.log(isSuccess);
-    console.log(agent);
-    // if (isError) {
-    //   Alert(message);
-    // }
-    // if (isSuccess || agent) {
-    //   navigation.navigate("Home");
-    // }
-    // dispatch(reset());
-  }, [agent, isLoading, isError, isSuccess, message, navigation, dispatch]);
+    if (isError) {
+      console.log("errorMessage", message);
+    }
+
+    if (isSuccess || agent) {
+      navigation.navigate("Home");
+    }
+
+    dispatch(reset());
+  }, [agent, isError, isSuccess, message, navigation, dispatch]);
 
   const handleSignUp = () => {
-    const userData = {
+    const agentData = {
       email,
       password,
     };
 
-    dispatch(register(userData));
+    dispatch(register(agentData));
   };
 
   const handleLogIn = () => {};
